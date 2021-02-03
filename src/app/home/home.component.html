@@ -1,0 +1,33 @@
+<header>
+  Population and GDP Data 
+</header>
+<div *ngIf= "!progressSpinner" class="p-grid p-mt-6">
+    <div class="p-col-4"></div>
+    <div class="p-col-6">
+  
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="year" placeholder="Enter Year (eg 2012)">
+      </span>
+      <button  id ="searchDetails"pButton type="button" label="Search"  style = "margin-left: 10px; margin-bottom: 0;"(click)="searchYearDetails()"></button>
+  
+    </div>
+    <div class="p-col-2"></div>
+  </div>
+  
+  <p-progressSpinner *ngIf= "progressSpinner"></p-progressSpinner>
+  
+  <ag-grid-angular *ngIf= "!progressSpinner"
+      style="width: 600px; height: 1000px; margin-left: 30%; margin-bottom: 30px;"
+      class="ag-theme-alpine"
+      [rowData]="tableData"
+      [columnDefs]="columnDefs"
+      [animateRows]=true
+  >
+  </ag-grid-angular>
+
+  <footer>
+    <p>World Bank Data<br>
+    <a href="mailto:hege@example.com">worldbank@example.com</a></p>
+  </footer>
+  
