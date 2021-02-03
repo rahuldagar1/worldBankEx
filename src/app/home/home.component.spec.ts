@@ -3,8 +3,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { HomeComponent } from './home.component';
 import {ConfigService} from '../config/config.service'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {of } from 'rxjs'
-//import { of} from 'rxjs/operators'
+import {Observable } from 'rxjs'
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -70,17 +69,18 @@ describe('HomeComponent', () => {
   it('component to be created', ()=>{
     expect(component).toBeTruthy();
   });
-  it('should call get population service', fakeAsync(() => {
-    let spyObject = spyOn(mockService,'getPopulation').and.returnValue(of(mockPopulation));
-    let spy2 = spyOn(mockService.getPopulation(),'subscribe');
-    component.ngOnInit();
+  it('should call get population service and get total pages', fakeAsync(() => {
+     spyOn(mockService,'getPopulation').and.returnValue( Observable.create((observer) => {
+      observer.next(mockPopulation);
+      return observer;}));
+    
     tick();
+    fixture.detectChanges();
+    component.ngOnInit()
+    expect(component.totalPages).toBeGreaterThan(10);
 
-    expect(spyObject).toHaveBeenCalledBefore(spy2)
-    expect (spy2).toHaveBeenCalled();
 
   }));
-
 
   // we can write more test cases to see the response of both the calls
   //checking the variables values and check methods are called and they do the correct work
