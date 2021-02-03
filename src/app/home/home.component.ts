@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit {
   //     tableRow.gdp = gdp[i].value;
   //     this.tableData.push(tableRow);
   //   }
+  //     this.progressSpinner = false;
 
   // }
 
@@ -80,11 +81,21 @@ export class HomeComponent implements OnInit {
   tableDetails(population, gdp){ //assuming data from both apis is in different order but contains data for all countries 
     this.tableData = [];
 
-    const populationData = population.sort((a,b)=>{
-      a.country.value.toLowerCase() > b.country.value.toLowerCase()? 1 : -1;
+    const populationData = population.sort((a,b)=>{ // considering ids to be unique  and same locale and 2 data will not have same id 
+      if(a.country.id.toLowerCase() < b.country.id.toLowerCase()){
+        return 1;
+      }
+      else {
+        return -1;
+      }
     });
     const gdpData = gdp.sort((a,b)=>{
-      a.country.value.toLowerCase() > b.country.value.toLowerCase()? 1 : -1;
+      if(a.country.id.toLowerCase() < b.country.id.toLowerCase()){
+        return 1;
+      }
+      else {
+        return -1;
+      }
     });
   for ( let i=0; i<populationData.length; i++) {
     let tableRow = new TableRow();
